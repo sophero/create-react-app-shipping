@@ -19,7 +19,7 @@ class Signup extends Component{
     return(
       <div className="signup-form">
         <input type="text" value={this.state.user.username} onChange={this.updateUsername} placeholder="Username" />
-        <input type="text" value={this.state.user.password} onChange={this.updatePassword} placeholder="Password" />
+        <input type="password" value={this.state.user.password} onChange={this.updatePassword} placeholder="Password" />
         <button onClick={this.createUser}>Create User</button>
       </div>
     )
