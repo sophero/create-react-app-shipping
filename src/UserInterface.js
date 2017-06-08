@@ -13,10 +13,11 @@ class UserInterface extends Component {
       boats:[],
       user:props.user
     }
-    this.createProfile=this.createProfilePage.bind(this);
-    this.createNewBoat=this.createNewBoatPage.bind(this);
-    this.createNewJob=this.createNewJobPage.bind(this);
+    this.createProfilePage=this.createProfilePage.bind(this);
+    this.createNewBoatPage=this.createNewBoatPage.bind(this);
+    this.createNewJobPage=this.createNewJobPage.bind(this);
     this.createBoat=this.createBoat.bind(this);
+    this.createJob=this.createJob.bind(this);
     this.getBoats = this.getBoats.bind(this);
     this.getJobs = this.getJobs.bind(this);
 
@@ -43,9 +44,9 @@ class UserInterface extends Component {
                         <li><Link to="/new_boat">New Boat</Link></li>
                         <li><Link to="/new_job">New Job</Link></li>
                     </ul>
-                    <Route path="/user_interface" component={this.createProfile} />
-                    <Route path="/new_boat" component={this.createNewBoat} />
-                    <Route path="/new_job" component={this.createNewJob} />
+                    <Route path="/user_interface" component={this.createProfilePage} />
+                    <Route path="/new_boat" component={this.createNewBoatPage} />
+                    <Route path="/new_job" component={this.createNewJobPage} />
                 </div>
             </BrowserRouter>
         </div>
@@ -91,9 +92,14 @@ class UserInterface extends Component {
         console.log(job, boat_id);
         axios.post('/jobs', {
             job: job
-        }).then(function(job_response) {
-            // axios.post('assignments', )
-            // console.log(job_response);
+        }).then((job_response) => {
+            axios.post('assignments', {
+                boat_id: boat_id,
+                user_id: job.user_id,
+                job_id: job_response.data.id
+            }).then((assignment_response) => {
+                this.getJobs();
+            });
         });
     }
 

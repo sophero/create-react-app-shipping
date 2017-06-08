@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 
 class NewJob extends Component {
     constructor(props) {
@@ -116,6 +117,18 @@ class NewJob extends Component {
             user_id: this.state.user.id
         }
         this.props.createJob(job, parseInt(this.state.boat_id));
+        // this.setState({
+        //     name: "",
+        //     description: "",
+        //     origin: "",
+        //     destination: "",
+        //     cost: "",
+        //     containers_needed: "",
+        //     boat_id: ""
+        // });
+        return(
+            <Redirect to="/profile" />
+        )
     }
 }
 
