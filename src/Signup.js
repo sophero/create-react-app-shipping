@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-
-
+import { Redirect } from 'react-router-dom';
 
 class Signup extends Component{
   constructor(props) {
@@ -16,6 +15,11 @@ class Signup extends Component{
     this.createUser=this.createUser.bind(this);
   }
   render() {
+    if (this.props.user) {
+      return(
+          <Redirect to="/user_interface" />
+      )
+    }
     return(
       <div className="signup-form">
         <input type="text" value={this.state.user.username} onChange={this.updateUsername} placeholder="Username" />
@@ -37,8 +41,7 @@ class Signup extends Component{
     })
   }
   createUser(){
-    console.log(this.state.user)
-    this.props.createUser(this.state.user)
+    this.props.createUser(this.state.user);
   }
 
 }

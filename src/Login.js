@@ -17,7 +17,7 @@ class Login extends Component {
     render() {
         if (this.props.user) {
             return(
-                <Redirect to="/profile" />
+                <Redirect to="/user_interface" />
             )
         }
         return(
