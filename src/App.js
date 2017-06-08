@@ -49,7 +49,8 @@ class App extends Component {
               currentUser: {
                   username: response.data.username,
                   id: response.data.id
-              }
+              },
+              errorMsg: ""
           });
       }.bind(this));
     }
@@ -67,7 +68,8 @@ class App extends Component {
                             currentUser: {
                                 username: users[k].username,
                                 id: users[k].id
-                            }
+                            },
+                            errorMsg: ""
                         });
 
                     } else {

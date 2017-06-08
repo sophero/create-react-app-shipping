@@ -17,7 +17,16 @@ class UserInterface extends Component {
     this.createNewBoat=this.createNewBoatPage.bind(this);
     this.createNewJob=this.createNewJobPage.bind(this);
     this.createBoat=this.createBoat.bind(this);
+    this.getBoats = this.getBoats.bind(this);
+    this.getJobs = this.getJobs.bind(this);
+
   }
+
+    componentWillMount() {
+        this.getBoats();
+        this.getJobs();
+    }
+
   render() {  if (this.props.user === null) {
         return(
             <Redirect to="/" />
@@ -43,7 +52,7 @@ class UserInterface extends Component {
     )
 }
     createProfilePage() {
-        return <Profile user={this.props.user} />
+        return <Profile user={this.props.user} boats={this.state.boats} jobs={this.state.jobs} />
     }
 
     createNewBoatPage() {
@@ -51,8 +60,9 @@ class UserInterface extends Component {
     }
 
     createNewJobPage() {
-        return <NewJob user={this.props.user} />
+        return <NewJob user={this.props.user} createJob={this.createJob} boats={this.state.boats}/>
     }
+
     createBoat(boat){
       console.log(boat);
       axios.post('/boats',{
@@ -64,6 +74,29 @@ class UserInterface extends Component {
         })
       }.bind(this));
     }
+
+    getBoats() {
+        axios.get('/boats').then(function(response) {
+            this.setState({boats: response.data});
+        }.bind(this));
+    }
+
+    getJobs() {
+        axios.get('/jobs').then(function(response) {
+            this.setState({jobs: response.data});
+        }.bind(this));
+    }
+
+    createJob(job, boat_id) {
+        console.log(job, boat_id);
+        axios.post('/jobs', {
+            job: job
+        }).then(function(job_response) {
+            // axios.post('assignments', )
+            // console.log(job_response);
+        });
+    }
+
 }
 
 export default UserInterface;
