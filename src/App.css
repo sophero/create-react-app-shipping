@@ -1,11 +1,15 @@
+body {
+  background-color: rgb(219, 222, 237);
+  color:  rgb(136, 159, 224);
+  font-size: 24px;
+}
+
+
 .App {
   text-align: center;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
-}
+
 
 .App-header {
   background-color: #222;

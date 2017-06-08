@@ -1,12 +1,24 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { BrowserRouter, Route, Link, Redirect } from 'react-router-dom';
 import Profile from './Profile';
 import NewBoat from './NewBoat';
 import NewJob from './NewJob';
+import axios from 'axios';
 
-function UserInterface(props) {
-
-    if (props.user === null) {
+class UserInterface extends Component {
+  constructor(props){
+    super(props)
+    this.state={
+      jobs:[],
+      boats:[],
+      user:props.user
+    }
+    this.createProfile=this.createProfilePage.bind(this);
+    this.createNewBoat=this.createNewBoatPage.bind(this);
+    this.createNewJob=this.createNewJobPage.bind(this);
+    this.createBoat=this.createBoat.bind(this);
+  }
+  render() {  if (this.props.user === null) {
         return(
             <Redirect to="/" />
         )
@@ -14,7 +26,7 @@ function UserInterface(props) {
 
     return(
         <div>
-            <button onClick={props.logout}>Logout</button>
+            <button onClick={this.props.logout}>Logout</button>
             <BrowserRouter>
                 <div>
                     <ul>
@@ -22,24 +34,35 @@ function UserInterface(props) {
                         <li><Link to="/new_boat">New Boat</Link></li>
                         <li><Link to="/new_job">New Job</Link></li>
                     </ul>
-                    <Route path="/user_interface" component={createProfile} />
-                    <Route path="/new_boat" component={createNewBoat} />
-                    <Route path="/new_job" component={createNewJob} />
+                    <Route path="/user_interface" component={this.createProfile} />
+                    <Route path="/new_boat" component={this.createNewBoat} />
+                    <Route path="/new_job" component={this.createNewJob} />
                 </div>
             </BrowserRouter>
         </div>
     )
-
-    function createProfile() {
-        return <Profile user={props.user} />
+}
+    createProfilePage() {
+        return <Profile user={this.props.user} />
     }
 
-    function createNewBoat() {
-        return <NewBoat user={props.user} />
+    createNewBoatPage() {
+        return <NewBoat user={this.props.user} createBoat={this.createBoat} />
     }
 
-    function createNewJob() {
-        return <NewJob user={props.user} />
+    createNewJobPage() {
+        return <NewJob user={this.props.user} />
+    }
+    createBoat(boat){
+      console.log(boat);
+      axios.post('/boats',{
+        boat:boat
+      }).then(function(response){
+        console.log(response);
+        this.setState({
+          boats:response.data
+        })
+      }.bind(this));
     }
 }
 
